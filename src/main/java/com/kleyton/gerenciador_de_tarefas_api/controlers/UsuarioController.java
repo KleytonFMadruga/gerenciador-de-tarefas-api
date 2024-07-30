@@ -43,6 +43,13 @@ public class UsuarioController {
 				UsuarioDto.class);
 	}
 
+	@PutMapping("/{id_usuario}")
+	public UsuarioDto atualizarUsuario(@PathVariable("id_usuario") Long idUsuario, @RequestBody Usuario usuarioDto) {
+
+		return MapperUtils.map(usuarioService.atualizaUsuario(idUsuario, MapperUtils.map(usuarioDto, Usuario.class)),
+				UsuarioDto.class);
+	}
+
 	@PostMapping("/{id_usuario}/tarefas")
 	@ResponseStatus(HttpStatus.CREATED)
 	public TarefaDto adicionarTarefa(@PathVariable("id_usuario") Long idUsuario, @RequestBody TarefaDto tarefaDto) {
