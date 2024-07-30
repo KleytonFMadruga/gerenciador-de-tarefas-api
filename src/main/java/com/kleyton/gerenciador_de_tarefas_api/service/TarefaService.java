@@ -1,5 +1,7 @@
 package com.kleyton.gerenciador_de_tarefas_api.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -31,5 +33,13 @@ public class TarefaService {
 		tarefa.setUsuario(usuario);
 		tarefa.setStatus(Status.PENDENTE);
 		return tarefaRepository.save(tarefa);
+	}
+
+	@Transactional
+	public List<Tarefa> getTarefasPorUsuario(Long idUsuario) {
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + idUsuario));
+
+		return usuario.getTarefas();
 	}
 }
