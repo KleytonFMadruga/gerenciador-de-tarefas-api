@@ -57,6 +57,7 @@ public class TarefaService {
 
 	}
 
+	@Transactional
 	public Tarefa atualizarTarefa(Long idUsuario, Long idTarefa, Tarefa tarefaAtualizada) {
 		Tarefa tarefaExistente = tarefaRepository.findById(idTarefa)
 				.orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada com o ID: " + idTarefa));
@@ -78,5 +79,19 @@ public class TarefaService {
 		}
 
 		return tarefaRepository.save(tarefaExistente);
+	}
+
+	public void deletarTarefa(Long idUsuario, Long idTarefa) {
+		Tarefa tarefa = tarefaRepository.findById(idTarefa)
+				.orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada com o ID: " + idTarefa));
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + idUsuario));
+
+		if (tarefa.getUsuario().getId() != usuario.getId()) {
+			throw new AcessoNegadoException("Tarefa não encontrada no usuário com ID: " + idUsuario);
+		}
+
+		tarefaRepository.deleteById(idTarefa);
+
 	}
 }
