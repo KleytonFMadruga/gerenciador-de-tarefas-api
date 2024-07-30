@@ -5,18 +5,16 @@ import java.time.LocalDateTime;
 import com.kleyton.gerenciador_de_tarefas_api.enums.Status;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @Entity(name = "TAREFAS")
 public class Tarefa {
 
@@ -29,5 +27,6 @@ public class Tarefa {
 	private Usuario usuario;
 	private String descricao;
 	private LocalDateTime prazo;
+	@Enumerated(EnumType.STRING)
 	private Status status;
 }
