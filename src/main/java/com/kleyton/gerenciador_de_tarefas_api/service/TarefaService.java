@@ -7,6 +7,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.kleyton.gerenciador_de_tarefas_api.enums.Status;
+import com.kleyton.gerenciador_de_tarefas_api.exceptions.AcessoNegadoException;
 import com.kleyton.gerenciador_de_tarefas_api.model.Tarefa;
 import com.kleyton.gerenciador_de_tarefas_api.model.Usuario;
 import com.kleyton.gerenciador_de_tarefas_api.repositories.TarefaRepository;
@@ -41,5 +42,18 @@ public class TarefaService {
 				.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + idUsuario));
 
 		return usuario.getTarefas();
+	}
+
+	@Transactional
+	public Tarefa getTarefa(Long idUsuario, Long idTarefa) {
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + idUsuario));
+		Tarefa tarefa = tarefaRepository.findById(idTarefa)
+				.orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada com ID: " + idTarefa));
+		if (tarefa.getUsuario().getId() != usuario.getId()) {
+			throw new AcessoNegadoException("Tarefa não encontrada no usuário com ID: " + idUsuario);
+		}
+		return tarefa;
+
 	}
 }

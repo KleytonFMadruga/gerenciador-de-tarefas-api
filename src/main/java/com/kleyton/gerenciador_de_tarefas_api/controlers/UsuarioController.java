@@ -56,4 +56,10 @@ public class UsuarioController {
 		return tarefaService.getTarefasPorUsuario(idUsuario);
 	}
 
+	@GetMapping("/{id_usuario}/tarefas/{id_tarefa}")
+	public Tarefa getTarefa(@PathVariable("id_usuario") Long idUsuario, @PathVariable("id_tarefa") Long idTarefa) {
+
+		return tarefaService.getTarefa(idUsuario, idTarefa);
+	}
+
 }
