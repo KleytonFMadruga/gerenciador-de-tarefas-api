@@ -56,4 +56,27 @@ public class TarefaService {
 		return tarefa;
 
 	}
+
+	public Tarefa atualizarTarefa(Long idUsuario, Long idTarefa, Tarefa tarefaAtualizada) {
+		Tarefa tarefaExistente = tarefaRepository.findById(idTarefa)
+				.orElseThrow(() -> new ResourceNotFoundException("Tarefa não encontrada com o ID: " + idTarefa));
+		Usuario usuario = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + idUsuario));
+
+		if (tarefaExistente.getUsuario().getId() != usuario.getId()) {
+			throw new AcessoNegadoException("Tarefa não encontrada no usuário com ID: " + idUsuario);
+		}
+
+		if (tarefaAtualizada.getDescricao() != null) {
+			tarefaExistente.setDescricao(tarefaAtualizada.getDescricao());
+		}
+		if (tarefaAtualizada.getStatus() != null) {
+			tarefaExistente.setStatus(tarefaAtualizada.getStatus());
+		}
+		if (tarefaAtualizada.getPrazo() != null) {
+			tarefaExistente.setPrazo(tarefaAtualizada.getPrazo());
+		}
+
+		return tarefaRepository.save(tarefaExistente);
+	}
 }

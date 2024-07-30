@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -62,4 +63,12 @@ public class UsuarioController {
 		return tarefaService.getTarefa(idUsuario, idTarefa);
 	}
 
+	@PutMapping("/{id_usuario}/tarefas/{id_tarefa}")
+	public TarefaDto atualizarTarefa(@PathVariable("id_usuario") Long idUsuario,
+			@PathVariable("id_tarefa") Long idTarefa, @RequestBody TarefaDto tarefaDto) {
+
+		return MapperUtils.map(
+				tarefaService.atualizarTarefa(idUsuario, idTarefa, MapperUtils.map(tarefaDto, Tarefa.class)),
+				TarefaDto.class);
+	}
 }
