@@ -33,4 +33,10 @@ public class UsuarioService {
 		}
 		return usuarioRepository.save(usuarioExistente);
 	}
+
+	public void deletaUsuario(Long idUsuario) {
+		Usuario usuarioExistente = usuarioRepository.findById(idUsuario)
+				.orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado com ID: " + idUsuario));
+		usuarioRepository.deleteById(idUsuario);
+	}
 }

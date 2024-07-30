@@ -50,6 +50,12 @@ public class UsuarioController {
 				UsuarioDto.class);
 	}
 
+	@DeleteMapping("/{id_usuario}")
+	public void deletarUsuario(@PathVariable("id_usuario") Long idUsuario) {
+
+		usuarioService.deletaUsuario(idUsuario);
+	}
+
 	@PostMapping("/{id_usuario}/tarefas")
 	@ResponseStatus(HttpStatus.CREATED)
 	public TarefaDto adicionarTarefa(@PathVariable("id_usuario") Long idUsuario, @RequestBody TarefaDto tarefaDto) {
