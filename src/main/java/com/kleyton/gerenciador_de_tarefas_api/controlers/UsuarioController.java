@@ -44,6 +44,7 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/{id_usuario}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public UsuarioDto atualizarUsuario(@PathVariable("id_usuario") Long idUsuario, @RequestBody Usuario usuarioDto) {
 
 		return MapperUtils.map(usuarioService.atualizaUsuario(idUsuario, MapperUtils.map(usuarioDto, Usuario.class)),
@@ -51,6 +52,7 @@ public class UsuarioController {
 	}
 
 	@DeleteMapping("/{id_usuario}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarUsuario(@PathVariable("id_usuario") Long idUsuario) {
 
 		usuarioService.deletaUsuario(idUsuario);
@@ -66,18 +68,21 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/{id_usuario}/tarefas")
+	@ResponseStatus(HttpStatus.OK)
 	public List<Tarefa> getTarefas(@PathVariable("id_usuario") Long idUsuario) {
 
 		return tarefaService.getTarefasPorUsuario(idUsuario);
 	}
 
 	@GetMapping("/{id_usuario}/tarefas/{id_tarefa}")
+	@ResponseStatus(HttpStatus.OK)
 	public Tarefa getTarefa(@PathVariable("id_usuario") Long idUsuario, @PathVariable("id_tarefa") Long idTarefa) {
 
 		return tarefaService.getTarefa(idUsuario, idTarefa);
 	}
 
 	@PutMapping("/{id_usuario}/tarefas/{id_tarefa}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public TarefaDto atualizarTarefa(@PathVariable("id_usuario") Long idUsuario,
 			@PathVariable("id_tarefa") Long idTarefa, @RequestBody TarefaDto tarefaDto) {
 
@@ -87,6 +92,7 @@ public class UsuarioController {
 	}
 
 	@DeleteMapping("/{id_usuario}/tarefas/{id_tarefa}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deletarTarefa(@PathVariable("id_usuario") Long idUsuario, @PathVariable("id_tarefa") Long idTarefa) {
 
 		tarefaService.deletarTarefa(idUsuario, idTarefa);
